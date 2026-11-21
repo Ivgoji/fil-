@@ -88,5 +88,15 @@
     "id": "mercat-centre",
     "lat": 41.3531572,
     "lon": 2.0715041
+  },
+  {
+    "id": "can-vallhonrat",
+    "lat": 41.3550491,
+    "lon": 2.0705644
+  },
+  {
+    "id": "antiga-estacio",
+    "lat": 41.3574756,
+    "lon": 2.0705685
   }
 ]
