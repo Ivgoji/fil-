@@ -17,8 +17,9 @@ use tower_http::services::{ServeDir, ServeFile};
 
 type Db = Arc<Dataset>;
 
-pub async fn serve(db: Db, dist: PathBuf, port: u16) -> anyhow::Result<()> {
-    let api = Router::new()
+/// Rutas de la API (sin la web estática), compartidas por el servidor y por `export`.
+pub fn router(db: Db) -> Router {
+    Router::new()
         .route("/api/meta", get(meta))
         .route("/api/summary", get(summary))
         .route("/api/contracts", get(contracts))
@@ -33,7 +34,11 @@ pub async fn serve(db: Db, dist: PathBuf, port: u16) -> anyhow::Result<()> {
         .route("/api/places/{id}", get(place))
         .route("/api/signals", get(signals))
         .route("/api/limits", get(limits))
-        .with_state(db);
+        .with_state(db)
+}
+
+pub async fn serve(db: Db, dist: PathBuf, port: u16) -> anyhow::Result<()> {
+    let api = router(db);
 
     let app = if dist.join("index.html").exists() {
         let spa = ServeDir::new(&dist).fallback(ServeFile::new(dist.join("index.html")));

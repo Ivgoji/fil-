@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { FormEvent, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Meta, useApi } from "../api";
+import { Meta, STATIC, useApi } from "../api";
 import { date } from "../format";
 
 const NAV = [
@@ -119,7 +119,11 @@ export default function Layout() {
       </header>
       {meta?.is_sample && (
         <div className="sample-pill" role="status">
-          Datos de muestra · <code>cargo run --release -- ingest</code> carga el registro completo
+          {STATIC ? (
+            <>Datos de muestra: una selección de contratos reales para enseñar la web</>
+          ) : (
+            <>Datos de muestra · <code>cargo run --release -- ingest</code> carga el registro completo</>
+          )}
         </div>
       )}
 

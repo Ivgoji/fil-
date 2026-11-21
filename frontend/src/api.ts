@@ -172,10 +172,57 @@ export interface PlaceRow {
   flagged: number;
 }
 
-export async function getJSON<T>(path: string): Promise<T> {
+/** true cuando la web se publica sin servidor: los datos salen de /data/*.json (ver `cargo run -- export`). */
+export const STATIC = import.meta.env.VITE_STATIC === "1";
+
+async function fetchJSON<T>(path: string): Promise<T> {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Error ${res.status} al cargar ${path}`);
   return res.json() as Promise<T>;
+}
+
+type StaticContract = Contract & { category_slug: string; body_slug: string; search: string };
+let allContracts: Promise<StaticContract[]> | null = null;
+
+const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+/** Réplica en el navegador del filtro de /api/contracts del servidor. */
+async function staticContracts(params: URLSearchParams) {
+  allContracts ??= fetchJSON<StaticContract[]>("/data/contracts.json");
+  const all = await allContracts;
+  const q = fold(params.get("q") ?? "").trim();
+  const year = params.get("year");
+  let v = all.filter(
+    (c) =>
+      (c.is_award || params.get("include_extensions") === "true") &&
+      (!params.get("category") || c.category_slug === params.get("category")) &&
+      (!params.get("procedure") || c.procedure_kind === params.get("procedure")) &&
+      (!year || c.year === Number(year)) &&
+      (!params.get("body") || c.body_slug === params.get("body")) &&
+      (params.get("signals") !== "true" || c.signal_ids.length > 0) &&
+      (!q || c.search.includes(q)),
+  );
+  const sort = params.get("sort");
+  if (sort === "amount") v = [...v].sort((a, b) => b.amount - a.amount);
+  if (sort === "oldest") v = [...v].sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
+  const per = Math.min(200, Math.max(1, Number(params.get("per_page") ?? 25)));
+  const page = Math.max(1, Number(params.get("page") ?? 1));
+  return {
+    total: v.length,
+    amount: Math.round(v.reduce((a, c) => a + c.amount, 0)),
+    page,
+    per_page: per,
+    items: v.slice((page - 1) * per, page * per),
+  };
+}
+
+export async function getJSON<T>(path: string): Promise<T> {
+  if (!STATIC) return fetchJSON<T>(path);
+  const [route, query = ""] = path.replace(/^\/api\//, "").split("?");
+  const params = new URLSearchParams(query);
+  if (route === "contracts") return (await staticContracts(params)) as T;
+  if (route === "signals" && params.get("kind")) return fetchJSON<T>(`/data/signals/${params.get("kind")}.json`);
+  return fetchJSON<T>(`/data/${route}.json`);
 }
 
 /** Carga datos de la API y vuelve a cargar cuando cambia la ruta. */

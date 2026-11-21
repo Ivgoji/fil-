@@ -32,6 +32,21 @@ npm run dev      # http://localhost:5173, con /api redirigido al backend en :808
 npm run build    # genera frontend/dist, que sirve el backend
 ```
 
+## Publicar en Vercel
+
+La web publicada no necesita servidor: `export` precalcula todas las respuestas de la API en `frontend/public/data/`
+y el frontend las lee directamente (`VITE_STATIC=1`). Vercel construye `frontend/` con `npm run build:static`
+(ver `frontend/vercel.json`) en cada push a `main`.
+
+Para publicar datos nuevos:
+
+```bash
+cd backend
+cargo run --release -- ingest   # descarga el registro completo
+cargo run --release -- export   # regenera frontend/public/data
+cd .. && git add frontend/public/data && git commit -m "Datos actualizados" && git push
+```
+
 ## Estructura
 
 ```

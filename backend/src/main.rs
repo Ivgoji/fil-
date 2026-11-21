@@ -3,8 +3,10 @@
 //! Uso:
 //!   cargo run --release -- ingest   # descarga los contratos reales y geolocaliza equipamientos
 //!   cargo run --release             # arranca la web en http://localhost:8080
+//!   cargo run --release -- export   # genera la web estática (frontend/public/data) para publicarla
 
 mod api;
+mod export;
 mod ingest;
 mod model;
 mod places;
@@ -32,8 +34,12 @@ async fn main() -> anyhow::Result<()> {
             let port: u16 = std::env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(8080);
             api::serve(Arc::new(dataset), root.join("frontend").join("dist"), port).await
         }
+        "export" => {
+            let dataset = model::Dataset::load(&data_dir)?;
+            export::run(dataset, &root.join("frontend").join("public").join("data")).await
+        }
         other => {
-            eprintln!("Comando desconocido: {other}. Usa `ingest` o `serve`.");
+            eprintln!("Comando desconocido: {other}. Usa `ingest`, `serve` o `export`.");
             std::process::exit(2);
         }
     }

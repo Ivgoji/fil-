@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build:static",
+  "outputDirectory": "dist-static",
+  "rewrites": [{ "source": "/((?!data/|assets/|favicon.svg).*)", "destination": "/index.html" }],
+  "headers": [{ "source": "/data/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }] }]
+}

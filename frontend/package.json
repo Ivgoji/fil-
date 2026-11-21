@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:static": "VITE_STATIC=1 vite build --outDir dist-static"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
