@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
 import { Signal, useApi } from "../api";
-import { Breadcrumbs, ErrorBox, Loading, SignalCard } from "../components/Bits";
+import { Breadcrumbs, ContractList, ErrorBox, Loading, SignalCard } from "../components/Bits";
+import { LimitRulers, RuleExplainer, TwinCase } from "../components/signals";
 import { CountUp } from "../components/viz";
 import { kindLabel } from "../format";
 
@@ -27,6 +28,7 @@ export default function Signals() {
       <Breadcrumbs items={[{ to: "/", label: "Inicio" }, { label: "Señales" }]} />
       <h1>Para mirar con lupa</h1>
       <p className="lead-muted">Patrones que suelen revisar los órganos de control. No son irregularidades.</p>
+      <RuleExplainer />
 
       <div className="signal-tabs" role="tablist">
         {TABS.map((t) => (
@@ -48,13 +50,23 @@ export default function Signals() {
       {loading && <Loading />}
       {error && <ErrorBox message={error} />}
       {data && data.items.length === 0 && <p className="status">No hay señales de este tipo.</p>}
-      <div className="signal-grid">
-        {data?.items.map((s, i) => (
-          <motion.div key={s.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 10) * 0.04 }}>
-            <SignalCard s={s} defaultOpen={i === 0 && kind !== "limite"} />
-          </motion.div>
-        ))}
-      </div>
+      {kind === "gemelos" && <div className="twins">{data?.items.map((s) => <TwinCase key={s.id} s={s} />)}</div>}
+      {kind === "limite" && (
+        <>
+          <LimitRulers />
+          <h3 className="lupa-sub">Los {data?.items.length ?? 0} contratos rozando el límite</h3>
+          <ContractList items={(data?.items ?? []).flatMap((s) => s.contracts)} limit={10} />
+        </>
+      )}
+      {kind === "recurrente" && (
+        <div className="signal-grid">
+          {data?.items.map((s, i) => (
+            <motion.div key={s.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 10) * 0.04 }}>
+              <SignalCard s={s} defaultOpen={i === 0} />
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

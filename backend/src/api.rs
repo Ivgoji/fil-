@@ -32,6 +32,7 @@ pub async fn serve(db: Db, dist: PathBuf, port: u16) -> anyhow::Result<()> {
         .route("/api/places", get(places))
         .route("/api/places/{id}", get(place))
         .route("/api/signals", get(signals))
+        .route("/api/limits", get(limits))
         .with_state(db);
 
     let app = if dist.join("index.html").exists() {
@@ -452,4 +453,22 @@ async fn signals(State(db): State<Db>, Query(q): Query<SignalQuery>) -> Json<Val
         m
     });
     Json(json!({ "counts": counts, "items": v }))
+}
+
+/// Contratos menores frente a su límite legal, agrupados por tipo de límite (servicios y suministros / obras).
+async fn limits(State(db): State<Db>) -> Json<Value> {
+    let groups = [(15000.0, "Servicios y suministros"), (40000.0, "Obras")];
+    let out: Vec<Value> = groups
+        .iter()
+        .map(|(limit, name)| {
+            let cs: Vec<&Contract> = awards(&db).filter(|c| c.procedure_kind == "menor" && c.limit == Some(*limit)).collect();
+            let near = cs.iter().filter(|c| c.near_limit).count();
+            let points: Vec<Value> = cs
+                .iter()
+                .map(|c| json!({ "id": c.id, "amount": c.amount, "near": c.near_limit, "twin": c.signal_ids.iter().any(|s| s.starts_with("gemelos")), "supplier": c.supplier, "description": c.description }))
+                .collect();
+            json!({ "name": name, "limit": limit, "count": cs.len(), "near": near, "points": points })
+        })
+        .collect();
+    Json(json!(out))
 }

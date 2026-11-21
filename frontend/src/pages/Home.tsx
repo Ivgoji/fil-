@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Summary, SupplierRow, useApi } from "../api";
-import { ErrorBox, Loading, Reveal, SectionHead, SignalCard } from "../components/Bits";
+import { ErrorBox, Loading, SectionHead } from "../components/Bits";
 import { CategoryList, EventExplorer, MapExplorer, SupplierRanking } from "../components/explorers";
 import { CountUp, MoneyBar } from "../components/viz";
+import { LimitRulers, RuleExplainer, TwinCases } from "../components/signals";
 
 export default function Home() {
   const { data: s, error, loading } = useApi<Summary>("/api/summary");
@@ -93,20 +94,20 @@ export default function Home() {
         </section>
       )}
 
-      {s.signals.length > 0 && (
-        <section className="band">
-          <div className="wrap">
-            <SectionHead kicker="05" title="Para mirar con lupa">
-              <Link className="link-arrow" to="/senales">Todas las señales</Link>
-            </SectionHead>
-            <div className="signal-grid">
-              {s.signals.map((sg, i) => (
-                <Reveal key={sg.id} delay={i * 0.08}><SignalCard s={sg} /></Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <section className="band band-lupa">
+        <div className="wrap">
+          <SectionHead kicker="05" title="Para mirar con lupa">
+            <Link className="link-arrow" to="/senales">Todas las señales</Link>
+          </SectionHead>
+          <RuleExplainer />
+          <h3 className="lupa-sub">La regla, contrato a contrato</h3>
+          <p className="lupa-lead">Cada punto es un contrato menor. Cuanto más a la derecha, más cerca del máximo que permite la ley sin concurso.</p>
+          <LimitRulers />
+          <h3 className="lupa-sub">Los casos</h3>
+          <p className="lupa-lead">Contratos casi iguales firmados a la vez. Sumados, así quedan frente al límite.</p>
+          <TwinCases />
+        </div>
+      </section>
     </>
   );
 }
