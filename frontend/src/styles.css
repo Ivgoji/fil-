@@ -728,3 +728,15 @@ button.chip:hover, a.chip:hover { border-color: var(--blue); color: var(--blue);
   .rank-drawer .chip { white-space: normal; line-height: 1.3; }
   .rank-drawer .chip b { white-space: nowrap; }
 }
+
+/* Panel de evento: mismo arreglo que el cajón de categorías */
+.event-panel-grid > *, .explorer > *, .company-cols > *, .two-col > * { min-width: 0; }
+@media (max-width: 760px) {
+  .event-panel-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .event-panel-inner { position: relative; }
+  .event-panel-head { display: block; padding-right: 44px; margin-bottom: 8px; }
+  .event-panel-head h3 { font-size: 1.45rem; }
+  .event-panel-head .panel-figure { display: block; margin: 6px 0 0; font-size: 2rem; }
+  .event-panel-head .icon-btn { position: absolute; top: 14px; right: 14px; }
+  .event-panel .list-head { flex-wrap: wrap; gap: 8px; }
+}
