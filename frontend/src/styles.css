@@ -551,3 +551,6 @@ button.chip:hover, a.chip:hover { border-color: var(--blue); color: var(--blue);
   .rank-bar { grid-column: 1 / 3; }
   .mapx-legend { flex-direction: column; gap: 4px; }
 }
+
+/* Teselas de OpenStreetMap en gris claro para que destaquen los puntos azules */
+.mapx-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.06) contrast(0.88); }
