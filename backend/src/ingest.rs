@@ -26,19 +26,7 @@ pub async fn run(data_dir: &Path) -> anyhow::Result<()> {
         let filters = serde_json::json!({ "ORGANISME_CONTRACTANT": org }).to_string();
         let mut offset = 0;
         loop {
-            let resp: Value = client
-                .get(API)
-                .query(&[
-                    ("resource_id", RESOURCE),
-                    ("filters", filters.as_str()),
-                    ("limit", &PAGE.to_string()),
-                    ("offset", &offset.to_string()),
-                ])
-                .send()
-                .await?
-                .error_for_status()?
-                .json()
-                .await?;
+            let resp = fetch_page(&client, &filters, offset).await?;
             let result = &resp["result"];
             let records = result["records"].as_array().cloned().unwrap_or_default();
             let total = result["total"].as_u64().unwrap_or(0) as usize;
@@ -59,6 +47,36 @@ pub async fn run(data_dir: &Path) -> anyhow::Result<()> {
     geocode(&client, data_dir, &all).await?;
     println!("Listo. Arranca la web con `cargo run --release`.");
     Ok(())
+}
+
+/// Una página del registro, con reintentos: la API de la AOC corta conexiones de vez en cuando.
+async fn fetch_page(client: &reqwest::Client, filters: &str, offset: usize) -> anyhow::Result<Value> {
+    let mut wait = Duration::from_secs(5);
+    let mut last_err = None;
+    for attempt in 1..=5 {
+        let res = client
+            .get(API)
+            .query(&[
+                ("resource_id", RESOURCE),
+                ("filters", filters),
+                ("limit", &PAGE.to_string()),
+                ("offset", &offset.to_string()),
+            ])
+            .send()
+            .await
+            .and_then(|r| r.error_for_status());
+        match res {
+            Ok(r) => match r.json::<Value>().await {
+                Ok(v) => return Ok(v),
+                Err(e) => last_err = Some(anyhow::Error::from(e)),
+            },
+            Err(e) => last_err = Some(anyhow::Error::from(e)),
+        }
+        eprintln!("Intento {attempt} fallido (offset {offset}); reintento en {}s", wait.as_secs());
+        tokio::time::sleep(wait).await;
+        wait *= 2;
+    }
+    Err(last_err.unwrap_or_else(|| anyhow::anyhow!("sin respuesta")))
 }
 
 async fn geocode(client: &reqwest::Client, data_dir: &Path, raw: &[Value]) -> anyhow::Result<()> {
