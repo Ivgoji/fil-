@@ -1,0 +1,125 @@
+[
+  {
+    "key": "izer-ingenieria-y-economia",
+    "activity": "Construcción y mantenimiento de infraestructuras y equipamientos públicos",
+    "sector": "Construcción",
+    "founded": 2010,
+    "hq": "Sant Just Desvern (Barcelona)",
+    "group": "Grupo IZER",
+    "history": [
+      "Sociedad limitada constituida a finales de 2010 e inscrita en el Registro Mercantil de Barcelona.",
+      "Declara como actividad la construcción y el mantenimiento de infraestructuras, equipamientos públicos y vivienda, además de obra civil y trabajos ferroviarios."
+    ],
+    "sources": [
+      { "label": "eInforma / elEconomista", "url": "https://empresite.eleconomista.es/IZER-INGENIERIA-ECONOMIA.html" },
+      { "label": "Infonif (BORME)", "url": "https://infonif.economia3.com/ficha-empresa/izer-ingenieria-y-economia-sl" }
+    ]
+  },
+  {
+    "key": "einsmer-business-designer",
+    "activity": "Ingeniería e integración de tecnología para seguridad urbana",
+    "sector": "Tecnología",
+    "hq": "Cornellà de Llobregat (Parc de la Infanta – Can Camprubí)",
+    "history": [
+      "Empresa con domicilio en la propia Cornellà de Llobregat.",
+      "Figura como socia del ecosistema Siemens Xcelerator con un producto propio, Kernel M7, orientado a sistemas colaborativos de seguridad para personas y ciudades."
+    ],
+    "sources": [
+      { "label": "Siemens Xcelerator", "url": "https://www.siemens.com/de-ch/ecosystem/einsmer-business-designer" },
+      { "label": "Eulerpool (registro LEI)", "url": "https://eulerpool.com/nl/bedrijven/ES/EINSMER BUSINESS DESIGNER S.L.,Cornellà de Llobregat,B-190026-8" }
+    ]
+  },
+  {
+    "key": "bl-espana-software",
+    "activity": "Software de gestión para ayuntamientos y administraciones",
+    "sector": "Software",
+    "founded": 1993,
+    "hq": "Madrid",
+    "group": "Berger-Levrault (Francia)",
+    "history": [
+      "Antes se llamaba Aytos Soluciones Informáticas; la sociedad data de 1993.",
+      "Forma parte del grupo francés Berger-Levrault, que en España integró a Absis, Tecnogeo y Aytos para vender software a administraciones públicas.",
+      "En 2025 absorbió a ABS Informática y Soluciones Avanzadas en Informática Aplicada, y en 2026 a Tramita Software."
+    ],
+    "sources": [
+      { "label": "Infonif (BORME)", "url": "https://infonif.economia3.com/ficha-empresa/bl-espana-software-sl" },
+      { "label": "BORME, fusión 2025", "url": "https://www.boe.es/borme/dias/2025/07/24/pdfs/BORME-C-2025-4377.pdf" },
+      { "label": "BORME, fusión 2026", "url": "https://boe.es/borme/dias/2026/06/09/pdfs/BORME-C-2026-3294.pdf" },
+      { "label": "Viafirma sobre Berger-Levrault", "url": "https://www.viafirma.com/en/?p=34989" }
+    ]
+  },
+  {
+    "key": "sociedad-espanola-de-radiodifusion",
+    "activity": "Radio: Cadena SER, LOS40 y otras emisoras",
+    "sector": "Medios de comunicación",
+    "founded": 1924,
+    "hq": "Madrid",
+    "group": "PRISA",
+    "history": [
+      "Su origen es Radio Barcelona, que empezó a emitir en 1924; en 1940 Unión Radio pasó a llamarse Sociedad Española de Radiodifusión.",
+      "Pertenece al grupo PRISA desde 1984, junto a emisoras musicales como LOS40 y Cadena Dial.",
+      "En Cornellà se le adjudicó el espectáculo LOS40 de las fiestas del Corpus 2026."
+    ],
+    "sources": [
+      { "label": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Cadena_SER" },
+      { "label": "Arxiu de la Ràdio (UAB)", "url": "https://arxiuradio.uab.cat/s/arxiusonor/item-set/125971" }
+    ]
+  },
+  {
+    "key": "fundacio-opera-catalunya",
+    "activity": "Producción de ópera en gira por teatros catalanes",
+    "sector": "Cultura",
+    "founded": 2021,
+    "hq": "Sabadell",
+    "history": [
+      "Se constituyó en 2021 para dar continuidad al ciclo Òpera a Catalunya, que impulsaba desde hacía más de 38 años la Associació d'Amics de l'Òpera de Sabadell.",
+      "Su patronato lo forman los Amics de l'Òpera de Sabadell, la Orquestra Simfònica del Vallès, la Fundació Banc Sabadell y la Fundació Fluidra."
+    ],
+    "sources": [
+      { "label": "Programa de mano (Palau de la Música)", "url": "https://palaumusica.cat/1390265.pdf" },
+      { "label": "Nació Digital", "url": "https://naciodigital.cat/sabadell/cultura-i-mitjans-sabadell/opera-catalunya-torna-sabadell-record-espectacles-programats.html" }
+    ]
+  },
+  {
+    "key": "mondo-iberica",
+    "activity": "Pavimentos deportivos y césped artificial",
+    "sector": "Equipamiento deportivo",
+    "hq": "Zaragoza",
+    "group": "Mondo (Italia)",
+    "history": [
+      "Filial española de Mondo, empresa familiar fundada en Alba (Italia) en 1948.",
+      "Mondo fabrica pistas de atletismo, césped artificial y pavimentos deportivos, y es proveedor oficial de World Athletics desde 1987."
+    ],
+    "sources": [
+      { "label": "Federación Internacional de Pádel", "url": "https://www.padelfip.com/es/?p=136710" },
+      { "label": "Interempresas", "url": "https://interempresas.net/Sports-facilities/Companies-Products/Contact-Mondo-Iberica-S-A-479.html" }
+    ]
+  },
+  {
+    "key": "promociones-musicales-get-in",
+    "activity": "Promotora de conciertos y giras",
+    "sector": "Música en directo",
+    "founded": 1991,
+    "hq": "Donostia / San Sebastián",
+    "history": [
+      "Promotora musical fundada en San Sebastián en 1991, con oficinas también en Madrid y una sede asociada en México.",
+      "Ha presidido la Asociación de Promotores Musicales (APM) entre 2008 y 2010."
+    ],
+    "sources": [
+      { "label": "Web de Get In", "url": "https://www.getin.es/?p=681" }
+    ]
+  },
+  {
+    "key": "gestio-d-infraestructures-sa-gisa",
+    "activity": "Empresa pública de obras de la Generalitat",
+    "sector": "Sector público",
+    "hq": "Barcelona",
+    "group": "Generalitat de Catalunya",
+    "history": [
+      "Sociedad anónima de la Generalitat de Catalunya que licita y dirige obras públicas: carreteras, equipamientos sanitarios, escuelas y edificios administrativos."
+    ],
+    "sources": [
+      { "label": "BOE", "url": "https://www.boe.es/boe/dias/2005/12/01/pdfs/B11395-11395.pdf" }
+    ]
+  }
+]
