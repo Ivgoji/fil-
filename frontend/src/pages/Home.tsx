@@ -37,7 +37,7 @@ export default function Home() {
             <CountUp value={t.awarded} />
             <span>adjudicados en {t.awarded_count} contratos a {t.suppliers} empresas</span>
           </div>
-          <MoneyBar threads groups={s.by_category} active={cat} onPick={(g) => pickCategory(g.slug)} />
+          <MoneyBar groups={s.by_category} active={cat} onPick={(g) => pickCategory(g.slug)} />
           <p className="hint">Pasa el ratón por la barra. Pulsa un tramo para abrirlo.</p>
           <div className="hero-stats">
             <Link to="/contratos?procedure=menor" className="stat">

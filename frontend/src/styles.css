@@ -483,7 +483,7 @@ button.chip:hover, a.chip:hover { border-color: var(--blue); color: var(--blue);
 .scroll-thread-dot { position: absolute; top: 1px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--blue); }
 .moneythreads { width: 100%; margin-bottom: -4px; }
 .moneythreads svg { display: block; overflow: visible; }
-.hero-figure { margin-bottom: 0; }
+.hero-figure { margin-bottom: 18px; }
 .kicker-thread { display: inline-flex; align-items: center; gap: 10px; }
 .squiggle { overflow: visible; }
 
