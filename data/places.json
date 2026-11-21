@@ -1,18 +1,92 @@
 [
-  {"id": "escola-sant-miquel", "lat": 41.36481, "lon": 2.0756},
-  {"id": "escola-mediterrania", "lat": 41.356295, "lon": 2.077685},
-  {"id": "escola-martinet", "lat": 41.355075, "lon": 2.09154},
-  {"id": "escola-areny", "lat": 41.350782, "lon": 2.073506},
-  {"id": "escola-sant-ildefons", "lat": 41.362209, "lon": 2.082001},
-  {"id": "ceip-suris", "lat": 41.359132, "lon": 2.059842},
-  {"id": "estadi-pilar-pons", "lat": 41.3507222775701, "lon": 2.06879025012275},
-  {"id": "piscina-can-millars", "lat": 41.3564218131003, "lon": 2.07745994345329},
-  {"id": "pell", "lat": 41.349465521765, "lon": 2.07266915526398},
-  {"id": "complex-can-mercader", "lat": 41.3591761412947, "lon": 2.08624407935099},
-  {"id": "pavello-almeda", "lat": 41.3502573046446, "lon": 2.08720556682319},
-  {"id": "museu-palau-mercader", "lat": 41.3574398, "lon": 2.0849455},
-  {"id": "arxiu-historic", "lat": 41.355720281, "lon": 2.074140413},
-  {"id": "auditori", "lat": 41.3493236, "lon": 2.081612},
-  {"id": "cc-sant-ildefons", "lat": 41.3616584, "lon": 2.0845788},
-  {"id": "cc-garcia-nieto", "lat": 41.3609968, "lon": 2.0781693}
+  {
+    "id": "escola-sant-miquel",
+    "lat": 41.36481,
+    "lon": 2.0756
+  },
+  {
+    "id": "escola-mediterrania",
+    "lat": 41.356295,
+    "lon": 2.077685
+  },
+  {
+    "id": "escola-martinet",
+    "lat": 41.355075,
+    "lon": 2.09154
+  },
+  {
+    "id": "escola-areny",
+    "lat": 41.350782,
+    "lon": 2.073506
+  },
+  {
+    "id": "escola-sant-ildefons",
+    "lat": 41.362209,
+    "lon": 2.082001
+  },
+  {
+    "id": "ceip-suris",
+    "lat": 41.359132,
+    "lon": 2.059842
+  },
+  {
+    "id": "estadi-pilar-pons",
+    "lat": 41.3507222775701,
+    "lon": 2.06879025012275
+  },
+  {
+    "id": "piscina-can-millars",
+    "lat": 41.3564218131003,
+    "lon": 2.07745994345329
+  },
+  {
+    "id": "pell",
+    "lat": 41.349465521765,
+    "lon": 2.07266915526398
+  },
+  {
+    "id": "complex-can-mercader",
+    "lat": 41.3591761412947,
+    "lon": 2.08624407935099
+  },
+  {
+    "id": "pavello-almeda",
+    "lat": 41.3502573046446,
+    "lon": 2.08720556682319
+  },
+  {
+    "id": "museu-palau-mercader",
+    "lat": 41.3574398,
+    "lon": 2.0849455
+  },
+  {
+    "id": "arxiu-historic",
+    "lat": 41.355720281,
+    "lon": 2.074140413
+  },
+  {
+    "id": "auditori",
+    "lat": 41.3493236,
+    "lon": 2.081612
+  },
+  {
+    "id": "cc-sant-ildefons",
+    "lat": 41.3616584,
+    "lon": 2.0845788
+  },
+  {
+    "id": "cc-garcia-nieto",
+    "lat": 41.3609968,
+    "lon": 2.0781693
+  },
+  {
+    "id": "mercat-sant-ildefons",
+    "lat": 41.3622011,
+    "lon": 2.0836235
+  },
+  {
+    "id": "mercat-centre",
+    "lat": 41.3531572,
+    "lon": 2.0715041
+  }
 ]
