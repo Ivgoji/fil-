@@ -50,6 +50,39 @@ export function RuleExplainer() {
   );
 }
 
+/* ---------- La regla en una franja ---------- */
+
+export function RuleBanner() {
+  const [ref, seen] = useInView<HTMLDivElement>();
+  return (
+    <div className="rule-banner" ref={ref}>
+      <div className="rule-track">
+        <motion.div className="rule-menor" initial={{ width: 0 }} animate={{ width: seen ? "68%" : 0 }} transition={{ duration: 0.9, ease }}>
+          <strong>Contrato menor</strong>
+          <span>El Ayuntamiento elige la empresa, sin concurso</span>
+        </motion.div>
+        <motion.div className="rule-zone" initial={{ opacity: 0 }} animate={{ opacity: seen ? 1 : 0 }} transition={{ delay: 0.8 }}>
+          <span>Rozando el límite</span>
+        </motion.div>
+        <motion.div className="rule-line" initial={{ scaleY: 0 }} animate={{ scaleY: seen ? 1 : 0 }} transition={{ delay: 0.9, duration: 0.3 }}>
+          <span>
+            <b>15.000 €</b> servicios y suministros
+            <br />
+            <b>40.000 €</b> obras
+          </span>
+        </motion.div>
+        <motion.div className="rule-open" initial={{ opacity: 0, x: 20 }} animate={{ opacity: seen ? 1 : 0, x: seen ? 0 : 20 }} transition={{ delay: 1 }}>
+          <strong>Concurso público</strong>
+          <span>Compiten varias empresas</span>
+        </motion.div>
+      </div>
+      <p className="rule-note">
+        Partir un trabajo en varios contratos para quedarse por debajo del límite está prohibido. Las cifras son sin IVA.
+      </p>
+    </div>
+  );
+}
+
 /* ---------- Regla: cada contrato menor como un punto frente a su límite ---------- */
 
 interface LimitGroup {
