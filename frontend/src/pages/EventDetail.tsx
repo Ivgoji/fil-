@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { EventDetailData, useApi } from "../api";
 import { Breadcrumbs, ContractList, ErrorBox, Loading, Reveal, SectionHead } from "../components/Bits";
 import { CountUp, Donut, HBars, Timeline, YearColumns } from "../components/viz";
+import { displayName } from "../lib/text";
 
 export default function EventDetail() {
   const { slug } = useParams();
@@ -34,7 +35,7 @@ export default function EventDetail() {
         </Reveal>
         <Reveal delay={0.1}>
           <SectionHead title="Quién cobra" />
-          <HBars rows={d.suppliers.map((s) => ({ id: s.key, label: s.name, value: s.total }))} onPick={(k) => nav(`/empresas/${k}`)} />
+          <HBars rows={d.suppliers.map((s) => ({ id: s.key, label: displayName(s.name), value: s.total }))} onPick={(k) => nav(`/empresas/${k}`)} />
           {d.by_year.length > 1 && (
             <>
               <h4>Por edición</h4>

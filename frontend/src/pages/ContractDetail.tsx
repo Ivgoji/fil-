@@ -3,6 +3,7 @@ import { Contract, Signal, useApi } from "../api";
 import { Breadcrumbs, ContractList, ErrorBox, Loading, SectionHead, SignalCard } from "../components/Bits";
 import { CountUp, LimitGauge } from "../components/viz";
 import { date, procedureLabel } from "../format";
+import { displayName, displayText } from "../lib/text";
 
 interface Detail {
   contract: Contract;
@@ -22,13 +23,13 @@ export default function ContractDetail() {
     <div className="wrap page">
       <Breadcrumbs items={[{ to: "/", label: "Inicio" }, { to: "/contratos", label: "Contratos" }, { label: `Expediente ${c.file || c.id}` }]} />
       <p className="kicker">{c.category}{c.event && <> · <Link to={`/eventos/${c.event_slug}`}>{c.event}</Link></>}</p>
-      <h1 className="title-long">{c.description}</h1>
+      <h1 className="title-long">{displayText(c.description)}</h1>
 
       <div className="contract-hero">
         <div>
           <CountUp className="hero-big ink" value={c.amount} />
           <p className="contract-who">
-            para <Link to={`/empresas/${c.supplier_key}`}>{c.supplier}</Link> · {date(c.date)}
+            para <Link to={`/empresas/${c.supplier_key}`}>{displayName(c.supplier)}</Link> · {date(c.date)}
           </p>
           {c.limit && c.procedure_kind === "menor" && <LimitGauge amount={c.amount} limit={c.limit} />}
         </div>

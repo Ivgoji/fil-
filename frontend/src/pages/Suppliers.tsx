@@ -10,6 +10,7 @@ export default function Suppliers() {
   const { data, error, loading } = useApi<SupplierRow[]>("/api/suppliers");
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string | null>(null);
+  const [shown, setShown] = useState(24);
   const rows = data ?? [];
   const cats = [...new Set(rows.map((r) => r.category).filter(Boolean))] as string[];
   const list = rows.filter((r) => (!cat || r.category === cat) && (!q || r.name.toLowerCase().includes(q.toLowerCase())));
@@ -26,7 +27,7 @@ export default function Suppliers() {
       <h2 className="subhead">Todas</h2>
 
       <div className="filter-rows">
-        <input className="input" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filtrar por nombre" aria-label="Filtrar por nombre" />
+        <input className="input" type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(24); }} placeholder="Filtrar por nombre" aria-label="Filtrar por nombre" />
         <div className="chips">
           <button className={`chip ${!cat ? "is-on" : ""}`} onClick={() => setCat(null)}>Todas</button>
           {cats.map((c) => (
@@ -36,7 +37,7 @@ export default function Suppliers() {
       </div>
 
       <motion.div layout className="company-grid">
-        {list.map((r, i) => (
+        {list.slice(0, shown).map((r, i) => (
           <motion.div key={r.key} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 12) * 0.03 }}>
             <Link to={`/empresas/${r.key}`} className="company-card">
               <span className="company-top">
@@ -56,6 +57,11 @@ export default function Suppliers() {
           </motion.div>
         ))}
       </motion.div>
+      {list.length > shown && (
+        <button className="btn-ghost more" onClick={() => setShown(shown + 48)}>
+          Ver más ({list.length - shown} restantes)
+        </button>
+      )}
     </div>
   );
 }

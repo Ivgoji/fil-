@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Contract, SupplierDetailData, useApi } from "../api";
 import { Breadcrumbs, ContractList, ErrorBox, Loading, Reveal, SectionHead, SignalCard } from "../components/Bits";
 import { shortName } from "../components/explorers";
+import { displayText } from "../lib/text";
 import { CountUp, Donut, LimitGauge, Timeline, YearColumns } from "../components/viz";
 import { date, euros, eurosShort, procedureLabel } from "../format";
 
@@ -106,7 +107,7 @@ export default function SupplierDetail() {
               <motion.div key={pick.id} className="pick-card" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div>
                   <p className="kicker">{date(pick.date)} · {procedureLabel[pick.procedure_kind] ?? pick.procedure}</p>
-                  <h3>{pick.description}</h3>
+                  <h3>{displayText(pick.description)}</h3>
                   <Link className="link-arrow" to={`/contratos/${pick.id}`}>Ficha del contrato</Link>
                 </div>
                 <div>
@@ -126,7 +127,7 @@ export default function SupplierDetail() {
               <motion.div key={c.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
                 <Link to={`/contratos/${c.id}`} className="project-card">
                   <span className="project-meta">{date(c.date)}{c.event && ` · ${c.event}`}</span>
-                  <span className="project-desc">{c.description}</span>
+                  <span className="project-desc">{displayText(c.description)}</span>
                   <span className="project-amount">{eurosShort(c.amount)}</span>
                 </Link>
               </motion.div>

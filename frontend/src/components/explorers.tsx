@@ -7,6 +7,7 @@ import { CategoryDetail, Contract, EventDetailData, Group, PlaceRow, SupplierRow
 import { euros, eurosShort } from "../format";
 import { ContractList, Loading } from "./Bits";
 import { CountUp, Donut, HBars, YearColumns } from "./viz";
+import { displayName } from "../lib/text";
 
 const panelAnim = {
   initial: { opacity: 0, x: 24 },
@@ -17,16 +18,18 @@ const panelAnim = {
 
 /* ---------- Tipo de gasto: lista ordenada que se despliega ---------- */
 
-export function CategoryList({ groups, initial }: { groups: Group[]; initial?: string | null }) {
+export function CategoryList({ groups, initial, limit = 6 }: { groups: Group[]; initial?: string | null; limit?: number }) {
   const [open, setOpen] = useState<string | null>(initial ?? null);
+  const [all, setAll] = useState(false);
   useEffect(() => {
     if (initial) setOpen(initial);
   }, [initial]);
   const total = groups.reduce((a, g) => a + g.total, 0) || 1;
   const max = Math.max(...groups.map((g) => g.total), 1);
   return (
+    <>
     <ol className="rank">
-      {groups.map((g, i) => {
+      {groups.filter((g, i) => all || i < limit || g.slug === open).map((g, i) => {
         const isOpen = open === g.slug;
         return (
           <motion.li
@@ -64,6 +67,12 @@ export function CategoryList({ groups, initial }: { groups: Group[]; initial?: s
         );
       })}
     </ol>
+    {groups.length > limit && (
+      <button className="btn-ghost more" onClick={() => setAll(!all)}>
+        {all ? "Ver menos" : `Ver los ${groups.length} tipos de gasto`}
+      </button>
+    )}
+    </>
   );
 }
 
@@ -91,7 +100,7 @@ function CategoryDrawer({ slug }: { slug: string }) {
             <div>
               <h4>Quién lo cobra</h4>
               <HBars
-                rows={data.suppliers.slice(0, 5).map((x) => ({ id: x.key, label: x.name, value: x.total, sub: `${x.count} contr.` }))}
+                rows={data.suppliers.slice(0, 5).map((x) => ({ id: x.key, label: displayName(x.name), value: x.total, sub: `${x.count} contr.` }))}
                 onPick={(k) => nav(`/empresas/${k}`)}
               />
               {data.places.length > 0 && (
@@ -188,7 +197,7 @@ function EventPanel({ slug, onClose }: { slug: string; onClose: () => void }) {
             <div>
               <h4>Empresas</h4>
               <HBars
-                rows={data.suppliers.map((s) => ({ id: s.key, label: s.name, value: s.total }))}
+                rows={data.suppliers.map((s) => ({ id: s.key, label: displayName(s.name), value: s.total }))}
                 active={supplier}
                 onPick={(k) => setSupplier(supplier === k ? null : k)}
               />
@@ -250,6 +259,7 @@ export function MapExplorer({ tall = false }: { tall?: boolean }) {
   const [hover, setHover] = useState<string | null>(null);
   const { data: detail } = useApi<PlaceDetail>(sel ? `/api/places/${sel}` : null);
   const [kind, setKind] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const all = places ?? [];
   const kinds = [...new Set(all.map((p) => p.kind))];
   const list = all.filter((p) => !kind || p.kind === kind);
@@ -310,7 +320,7 @@ export function MapExplorer({ tall = false }: { tall?: boolean }) {
                 <CountUp className="panel-figure" value={total} />
                 <p className="panel-sub">en {list.length} edificios y espacios municipales</p>
                 <ol className="place-list">
-                  {[...located, ...unlocated].map((p) => (
+                  {[...located, ...unlocated].slice(0, showAll ? undefined : 8).map((p) => (
                     <li key={p.id}>
                       <button
                         className={hover === p.id ? "is-hover" : ""}
@@ -325,7 +335,11 @@ export function MapExplorer({ tall = false }: { tall?: boolean }) {
                     </li>
                   ))}
                 </ol>
-                {unlocated.length > 0 && <p className="hint">Los «sin ubicar» se sitúan al ejecutar <code>ingest</code>.</p>}
+                {list.length > 8 && (
+                  <button className="btn-ghost more" onClick={() => setShowAll(!showAll)}>
+                    {showAll ? "Ver menos" : `Ver los ${list.length} lugares`}
+                  </button>
+                )}
               </motion.div>
             ) : !detail || detail.place.id !== sel ? (
               <motion.div key="loading" {...panelAnim}><Loading /></motion.div>
@@ -367,7 +381,7 @@ export function SupplierRanking({ rows, limit = 10 }: { rows: SupplierRow[]; lim
             <span className="rank-n">{String(i + 1).padStart(2, "0")}</span>
             <span className="rank-name">
               {r.flagged > 0 && <i className="dot-warn" title="Con señales" />}
-              {shortName(r.name)}
+              {displayName(r.name)}
               <small>
                 {r.first_date && `Desde ${r.first_date.slice(0, 4)} · `}
                 {r.activity ?? r.category}
@@ -393,10 +407,4 @@ export function SupplierRanking({ rows, limit = 10 }: { rows: SupplierRow[]; lim
   );
 }
 
-export function shortName(name: string): string {
-  return name
-    .replace(/,?\s*(Sociedad Unipersonal|S\.?L\.?U\.?|S\.?L\.?L\.?|S\.?L\.?P?\.?|S\.?A\.?U?\.?|S\.?C\.?C\.?L\.?|S\.?C\.?P\.?|SL|SA)\.?$/i, "")
-    .replace(/,?\s*(Sociedad Unipersonal|SLU|SL|SA)\.?$/i, "")
-    .replace(/[,\s]+$/, "")
-    .trim();
-}
+export { displayName as shortName } from "../lib/text";

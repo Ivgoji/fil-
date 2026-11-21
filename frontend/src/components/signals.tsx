@@ -7,6 +7,7 @@ import { shade } from "../lib/colors";
 import { useInView, usePointer } from "../lib/hooks";
 import { ErrorBox, Loading } from "./Bits";
 import { shortName } from "./explorers";
+import { displayText } from "../lib/text";
 import { Tip } from "./viz";
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -113,7 +114,7 @@ function LimitRuler({ g }: { g: LimitGroup }) {
   const x = (v: number) => `${(Math.min(v, max) / max) * 100}%`;
   const ticks = [0, 0.25, 0.5, 0.75].map((t) => t * g.limit);
   return (
-    <div className="ruler" ref={ref}>
+    <div className={`ruler ${g.points.length > 80 ? "is-dense" : ""}`} ref={ref}>
       <div className="ruler-head">
         <h3>{g.name}</h3>
         <p>
@@ -157,7 +158,7 @@ function LimitRuler({ g }: { g: LimitGroup }) {
             <>
               <strong>{euros(hover.amount)}</strong>
               <span>{shortName(hover.supplier)}</span>
-              <em>{hover.description.slice(0, 80)}{hover.description.length > 80 ? "…" : ""}</em>
+              <em>{displayText(hover.description).slice(0, 80)}{hover.description.length > 80 ? "…" : ""}</em>
             </>
           )}
         </Tip>
@@ -181,7 +182,7 @@ export function TwinCase({ s }: { s: Signal }) {
   const over = s.total > limit;
   const suppliers = [...new Set(s.contracts.map((c) => c.supplier_key))];
   const sameDay = new Set(s.contracts.map((c) => c.date)).size === 1;
-  const what = s.contracts[0]?.description ?? s.title;
+  const what = displayText(s.contracts[0]?.description ?? s.title);
   return (
     <motion.article ref={ref} layout className={`twin ${over ? "is-over" : ""}`}>
       <div className="twin-tags">

@@ -5,6 +5,7 @@ import { Contract, Signal } from "../api";
 import { date, euros, kindLabel, levelLabel, procedureLabel } from "../format";
 import { useInView } from "../lib/hooks";
 import { LimitGauge, Squiggle } from "./viz";
+import { displayName, displayText } from "../lib/text";
 
 export function Loading() {
   return (
@@ -90,10 +91,10 @@ export function ContractList({ items, showSupplier = true, limit }: { items: Con
             <button className="crow-head" onClick={() => setOpen(isOpen ? null : c.id)} aria-expanded={isOpen}>
               <span className="crow-date">{date(c.date)}</span>
               <span className="crow-desc">
-                {c.description}
+                {displayText(c.description)}
                 <SignalTag c={c} />
               </span>
-              {showSupplier && <span className="crow-supplier">{c.supplier}</span>}
+              {showSupplier && <span className="crow-supplier">{displayName(c.supplier)}</span>}
               <span className="crow-amount">{euros(c.amount)}</span>
               <span className="crow-chev" aria-hidden="true">+</span>
             </button>
@@ -108,7 +109,7 @@ export function ContractList({ items, showSupplier = true, limit }: { items: Con
                 >
                   <div className="crow-inner">
                     <dl className="crow-facts">
-                      <div><dt>Empresa</dt><dd><Link to={`/empresas/${c.supplier_key}`}>{c.supplier}</Link></dd></div>
+                      <div><dt>Empresa</dt><dd><Link to={`/empresas/${c.supplier_key}`}>{displayName(c.supplier)}</Link></dd></div>
                       <div><dt>Procedimiento</dt><dd>{procedureLabel[c.procedure_kind] ?? c.procedure}</dd></div>
                       <div><dt>Categoría</dt><dd>{c.category}</dd></div>
                       {c.event && <div><dt>Evento</dt><dd><Link to={`/eventos/${c.event_slug}`}>{c.event}</Link></dd></div>}
@@ -158,7 +159,7 @@ export function SignalCard({ s, defaultOpen = false }: { s: Signal; defaultOpen?
               {s.contracts.map((c) => (
                 <li key={c.id}>
                   <Link to={`/contratos/${c.id}`}>
-                    <span>{c.supplier}</span>
+                    <span>{displayName(c.supplier)}</span>
                     <span>{date(c.date)}</span>
                     <strong>{euros(c.amount)}</strong>
                   </Link>
