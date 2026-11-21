@@ -5,7 +5,7 @@ import { Signal, useApi } from "../api";
 import { date, euros } from "../format";
 import { shade } from "../lib/colors";
 import { useInView, usePointer } from "../lib/hooks";
-import { Loading } from "./Bits";
+import { ErrorBox, Loading } from "./Bits";
 import { shortName } from "./explorers";
 import { Tip } from "./viz";
 
@@ -61,7 +61,8 @@ interface LimitGroup {
 }
 
 export function LimitRulers() {
-  const { data } = useApi<LimitGroup[]>("/api/limits");
+  const { data, error } = useApi<LimitGroup[]>("/api/limits");
+  if (error) return <ErrorBox message="El servidor no tiene este dato. Si acabas de actualizar Fil, reinícialo (Ctrl+C y cargo run --release)" />;
   if (!data) return <Loading />;
   return (
     <div className="rulers">
@@ -218,7 +219,8 @@ export function TwinCase({ s }: { s: Signal }) {
 }
 
 export function TwinCases() {
-  const { data } = useApi<{ items: Signal[] }>("/api/signals?kind=gemelos");
+  const { data, error } = useApi<{ items: Signal[] }>("/api/signals?kind=gemelos");
+  if (error) return <ErrorBox message={error} />;
   if (!data) return <Loading />;
   if (data.items.length === 0) return <p className="status">No hay contratos gemelos.</p>;
   return (
